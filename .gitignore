@@ -1,0 +1,57 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+*.egg
+
+# Virtual Environment
+venv/
+env/
+.venv/
+
+# Environment Variables
+.env
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# Pytest
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Database
+*.db
+*.sqlite3
+
+# Alembic
+alembic.ini
+
+# Node
+node_modules/
+
+# Build
+build/
+dist/
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# Docker
+docker-data/
+
+# Temporary Files
+*.tmp
+*.bak
+
+# Secrets
+*.pem
+*.key
