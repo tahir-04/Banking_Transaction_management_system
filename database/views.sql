@@ -1,7 +1,11 @@
-CREATE VIEW banking.account_summary AS
+CREATE VIEW banking.customer_accounts AS
 SELECT
-    account_number,
-    balance,
-    status,
-    account_type
-FROM banking.accounts;
+    c.customer_id,
+    c.first_name,
+    c.last_name,
+    a.account_number,
+    a.balance
+FROM banking.customers c
+JOIN banking.accounts a
+ON c.customer_id = a.customer_id;
+
