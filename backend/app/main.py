@@ -10,6 +10,8 @@ from backend.app.api.v1.user import (
 
 from backend.app.core.config import settings
 
+from backend.app.api.v1.banking import router as banking_router
+
 print(settings.DATABASE_URL)
 
 app = FastAPI(
@@ -28,3 +30,5 @@ def home():
 
 app.include_router(auth_router)
 app.include_router(user_router)
+
+app.include_router(banking_router)

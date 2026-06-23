@@ -1,9 +1,12 @@
 import uuid
+from datetime import datetime
 from sqlalchemy import Column
 from sqlalchemy import String
 from sqlalchemy import Numeric
+from sqlalchemy import DateTime
 from sqlalchemy.dialects.postgresql import UUID
 from backend.app.database.base import Base
+
 
 class Transaction(Base):
     __tablename__ = "transactions"
@@ -26,10 +29,16 @@ class Transaction(Base):
         Numeric(18, 2)
     )
 
-    transaction_type = Column(
-        String
+    transaction_type = Column(String)
+
+    reference_number = Column(
+        String,
+        unique=True
     )
 
-    status = Column(
-        String
+    status = Column(String)
+
+    created_at = Column(
+        DateTime,
+        default=datetime.utcnow
     )

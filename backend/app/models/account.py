@@ -1,8 +1,13 @@
-import uuid
-from sqlalchemy import Column
-from sqlalchemy import String
-from sqlalchemy import Numeric
+from sqlalchemy import (
+    Column,
+    String,
+    Numeric,
+    ForeignKey,
+    DateTime
+)
 from sqlalchemy.dialects.postgresql import UUID
+import uuid
+from datetime import datetime
 from backend.app.database.base import Base
 
 class Account(Base):
@@ -15,22 +20,29 @@ class Account(Base):
     )
 
     customer_id = Column(
-        UUID(as_uuid=True)
+        UUID(as_uuid=True),
+        ForeignKey("customers.customer_id")
     )
 
     account_number = Column(
         String,
-        unique=True
+        unique=True,
+        nullable=False
     )
 
     account_type = Column(String)
 
     balance = Column(
-        Numeric(18, 2),
+        Numeric(18,2),
         default=0
     )
 
     status = Column(
         String,
         default="ACTIVE"
+    )
+
+    created_at = Column(
+        DateTime,
+        default=datetime.utcnow
     )

@@ -1,13 +1,12 @@
 from fastapi import Depends
 from fastapi import HTTPException
-from fastapi import status
 from fastapi.security import HTTPBearer
 from fastapi.security import HTTPAuthorizationCredentials
 from jose import jwt
-from jose import JWTError
 from sqlalchemy.orm import Session
 
 from backend.app.dependencies.database import get_db
+from backend.app.database.database import SessionLocal
 from backend.app.core.config import settings
 from backend.app.models.customer import Customer
 
@@ -15,31 +14,20 @@ security = HTTPBearer()
 
 
 def get_current_user(
-    credentials: HTTPAuthorizationCredentials = Depends(security),
+    credentials: HTTPAuthorizationCredentials = Depends(
+        security
+    ),
     db: Session = Depends(get_db)
 ):
     token = credentials.credentials
 
-    try:
-        payload = jwt.decode(
-            token,
-            settings.SECRET_KEY,
-            algorithms=[settings.ALGORITHM]
-        )
+    payload = jwt.decode(
+        token,
+        settings.SECRET_KEY,
+        algorithms=[settings.ALGORITHM]
+    )
 
-        customer_id = payload.get("sub")
-
-        if customer_id is None:
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Invalid token"
-            )
-
-    except JWTError:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid token"
-        )
+    customer_id = payload.get("sub")
 
     user = (
         db.query(Customer)
@@ -49,14 +37,13 @@ def get_current_user(
         .first()
     )
 
-    if user is None:
+    if not user:
         raise HTTPException(
             status_code=401,
-            detail="User not found"
+            detail="Invalid token"
         )
 
     return user
-
 
 def admin_required(
     current_user=Depends(get_current_user)

@@ -30,3 +30,18 @@ class TokenExpired(HTTPException):
             status_code=401,
             detail="Token expired"
         )
+
+class InvalidAccount(Exception):
+    pass
+
+
+class InsufficientFunds(Exception):
+    pass
+
+
+class FrozenAccount(Exception):
+    pass
+
+
+class TransferFailed(Exception):
+    pass
